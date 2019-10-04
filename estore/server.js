@@ -3,8 +3,12 @@
 // Express
 const express = require('express');
 
-// Express - Middlewares
+// Middlewares
 const bodyParser = require('body-parser');
+const { 
+	logErrors, 
+	errorHandler 
+} = require('./utils/middlewares/errorHandlers.js')
 
 // node.js
 const path = require("path");
@@ -29,6 +33,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Routes
 router(app)
+
+// Middlewares
+app.use(logErrors);
+app.use(errorHandler);
+
 
 // View Engine setup
 app.set('views', path.join(__dirname,'views'));

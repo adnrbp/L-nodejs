@@ -12,17 +12,19 @@ router
 	.post(presenter.addProductP);
 */
 
-router.get('/', function(req, res){
+router.get('/', function(req, res, next){
 	controller.getProducts()
 		.then((productList) =>{
+
 			response.success(req,res, productList, 200);
 		})
 		.catch(e => {
 			response.error(req,res, "Unexpected Error", 500, e);
+			//next(e);
 		});
 });
 
-router.post('/',function(req, res){
+router.post('/',function(req, res, next){
 
 	controller.addProduct(
 			req.body.name, 

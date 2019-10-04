@@ -27,6 +27,7 @@ function addProduct(name, price){
 function getProducts(){
 	return new Promise((resolve, reject) => {
 		resolve(repository.list());
+		//reject(new Error("Error get movies"))
 	});
 }
 
