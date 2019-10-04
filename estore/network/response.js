@@ -1,4 +1,5 @@
-const chalk = require("chalk")
+const boom = require('@hapi/boom');
+const chalk = require("chalk");
 
 exports.success = function(req, res, message, status){
 	res.status(status || 200).send({

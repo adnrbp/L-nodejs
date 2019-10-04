@@ -6,9 +6,12 @@ const express = require('express');
 // Middlewares
 const bodyParser = require('body-parser');
 const { 
-	logErrors, 
+	logErrors,
+	wrapErrors,
 	errorHandler 
-} = require('./utils/middlewares/errorHandlers.js')
+} = require('./utils/middlewares/errorHandlers.js');
+
+const notFoundHandler = require('./utils/middlewares/notFoundHandler');
 
 // node.js
 const path = require("path");
@@ -26,7 +29,7 @@ const router = require('./network/routes');
 // Server
 const app = express();
 
-// Middlewares
+// Parsing Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -34,8 +37,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Routes
 router(app)
 
-// Middlewares
+// catch 404
+app.use(notFoundHandler);
+
+// Error Middlewares
 app.use(logErrors);
+app.use(wrapErrors);
 app.use(errorHandler);
 
 
