@@ -2,6 +2,14 @@ const express = require('express');
 
 const response = require('../../network/response');
 const controller = require('./controller');
+const {
+	productIdSchema,
+	createProductSchema
+} = require('./schema.js');
+
+const validationHandler = require('../../utils/middlewares/validationHandler');
+
+
 const router = express.Router();
 
 /*
@@ -24,18 +32,18 @@ router.get('/', function(req, res, next){
 		});
 });
 
-router.post('/',function(req, res, next){
+router.post('/', 
+	validationHandler(createProductSchema), 
+	function(req, res, next){
+		const {body: product } = req;
 
-	controller.addProduct(
-			req.body.name, 
-			req.body.price
-		)
-		.then((fullProduct) => {
-			response.success(req,res, fullProduct, 201);
-		})
-		.catch(e => {
-			response.error(req,res, "información invalida", 400, "Error en el controller");
-		});
+		controller.addProduct({product})
+			.then((fullProduct) => {
+				response.success(req,res, fullProduct, 201);
+			})
+			.catch(e => {
+				response.error(req,res, "información invalida", 400, "Error en el controller");
+			});
 
 });
 
