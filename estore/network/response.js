@@ -1,9 +1,10 @@
 const boom = require('@hapi/boom');
 const chalk = require("chalk");
 
-exports.success = function(req, res, message, status){
+exports.success = function(req, res, message, status, details="ok"){
 	res.status(status || 200).send({
 		error: '',
+		info: details,
 		body: message
 	});
 }
