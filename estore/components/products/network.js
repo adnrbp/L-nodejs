@@ -5,7 +5,8 @@ const presenter = require('./presenter');
 const controller = require('./controller');
 const {
 	productIdSchema,
-	createProductSchema
+	createProductSchema,
+	updateProductSchema
 } = require('./schema.js');
 
 const validationHandler = require('../../utils/middlewares/validationHandler');
@@ -21,9 +22,13 @@ router.route('/')
 			presenter.createProduct);
 
 router.route('/:productId')
-	.get(presenter.showProduct)
-	.put(presenter.updateProduct)
-	.delete(presenter.deleteProduct);
+	.get(validationHandler({productId: productIdSchema}, 'params'),
+			presenter.showProduct)
+	.put(validationHandler({productId: productIdSchema}, 'params'),
+			validationHandler(updateProductSchema),
+			presenter.updateProduct)
+	.delete(validationHandler({productId: productIdSchema}, 'params'),
+			presenter.deleteProduct);
 
 
 

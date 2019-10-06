@@ -37,6 +37,7 @@ const createProductP = async function (req, res, next) {
 
 // Async Await CRUD
 const getProducts = async function (req, res, next){
+	const { tags } = req.query;
 	try{
 		const products = await Promise.resolve(productsMock);
 		response.success(req,res, products, 200, 'products listed');
@@ -51,6 +52,7 @@ const getProducts = async function (req, res, next){
 
 
 const showProduct = async function (req, res, next){
+	const { productId } = req.params;
 	try{
 		const product = await Promise.resolve(productsMock[0]);
 		response.success(req,res, product, 200, 'product retrieved');
@@ -59,7 +61,9 @@ const showProduct = async function (req, res, next){
 	}
 }
 
+
 const createProduct = async function (req, res, next){
+	const {body: product } = req;
 	try{
 		const createdProductId = await Promise.resolve(productsMock[0]);
 		response.success(req,res, createdProductId, 201, 'product created');
@@ -69,6 +73,8 @@ const createProduct = async function (req, res, next){
 }
 
 const updateProduct = async function (req, res, next){
+	const { productId } = req.params;
+	const { body: product } = req;
 	try{
 		const updatedProductId = await Promise.resolve(productsMock[0]);
 		response.success(req,res, updatedProductId, 200, 'product updated');
