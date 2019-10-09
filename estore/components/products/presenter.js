@@ -3,8 +3,9 @@ const controller = require('./controller');
 const { productsMock } = require('./mock');
 
 
+
 const getProductsP = async function (req, res, next) {
-	await controller.getProducts()
+	await controller.getAllProducts()
 		.then((productList) =>{
 			response.success(req,res, productList, 200,"listed");
 		})
@@ -39,7 +40,8 @@ const createProductP = async function (req, res, next) {
 const getProducts = async function (req, res, next){
 	const { tags } = req.query;
 	try{
-		const products = await Promise.resolve(productsMock);
+		//const products = await Promise.resolve(productsMock);
+		const products = await controller.getProducts({tags});
 		response.success(req,res, products, 200, 'products listed');
 		/*res.status(200).json({
 			data: products,
@@ -54,7 +56,8 @@ const getProducts = async function (req, res, next){
 const showProduct = async function (req, res, next){
 	const { productId } = req.params;
 	try{
-		const product = await Promise.resolve(productsMock[0]);
+		//const product = await Promise.resolve(productsMock[0]);
+		const product = await controller.showProduct({ productId });
 		response.success(req,res, product, 200, 'product retrieved');
 	} catch(err){
 		next(err);
@@ -65,7 +68,10 @@ const showProduct = async function (req, res, next){
 const createProduct = async function (req, res, next){
 	const {body: product } = req;
 	try{
-		const createdProductId = await Promise.resolve(productsMock[0]);
+		//const createdProductId = await Promise.resolve(productsMock[0]);
+		console.log(product);
+		const createdProductId = await controller.createProduct({ product });
+
 		response.success(req,res, createdProductId, 201, 'product created');
 	} catch(err){
 		next(err);
@@ -76,7 +82,8 @@ const updateProduct = async function (req, res, next){
 	const { productId } = req.params;
 	const { body: product } = req;
 	try{
-		const updatedProductId = await Promise.resolve(productsMock[0]);
+		//const updatedProductId = await Promise.resolve(productsMock[0]);
+		const updatedProductId = await controller.updateProduct({ productId, product })
 		response.success(req,res, updatedProductId, 200, 'product updated');
 	} catch(err){
 		next(err);
@@ -84,8 +91,9 @@ const updateProduct = async function (req, res, next){
 }
 
 const deleteProduct = async function (req, res, next){
+	const { productId } = req.params;
 	try{
-		const deletedProductId = await Promise.resolve(productsMock[0]);
+		const deletedProductId = await controller.deleteProduct({productId})
 		response.success(req,res, deletedProductId, 200, 'product deleted');
 	} catch(err){
 		next(err);

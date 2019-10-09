@@ -1,8 +1,9 @@
 const express = require('express');
 
-const response = require('../../network/response');
+//const response = require('../../network/response');
 const presenter = require('./presenter');
-const controller = require('./controller');
+//const controller = require('./controller');
+
 const {
 	productIdSchema,
 	createProductSchema,
