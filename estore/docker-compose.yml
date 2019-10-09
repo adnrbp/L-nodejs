@@ -1,0 +1,23 @@
+version: "3"
+
+volumes:
+  local_mongo_data: {}
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./compose/local/node/Dockerfile
+    image: lnode
+    depends_on:
+      - db
+    env_file:
+      - ./.envs/.local/.mongo
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3001:3001"
+
+  db:
+    image: mongo
+    volumes:
+      - local_mongo_data:/data/db
